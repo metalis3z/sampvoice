@@ -1,0 +1,46 @@
+name: C++ CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Configure CMake
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=Release
+
+    - name: Build
+      run: cmake --build ${{github.workspace}}/build --config Release
+
+    - name: Upload Windows Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: windows-binaries
+        path: |
+          ${{github.workspace}}/build/Release/client.dll
+          ${{github.workspace}}/build/Release/server.dll
+
+  build-linux:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Configure CMake
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=Release
+
+    - name: Build
+      run: cmake --build ${{github.workspace}}/build --config Release
+
+    - name: Upload Linux Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: linux-binaries
+        path: ${{github.workspace}}/build/libserver.so
