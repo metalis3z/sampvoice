@@ -28,7 +28,7 @@ jobs:
         msbuild /p:Configuration=Release /p:Platform=x86 voice/voice.vcxproj
     
     - name: Upload Windows artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: windows-builds
         path: |
@@ -51,7 +51,7 @@ jobs:
         g++ -m32 -shared -fPIC -o libsampvoice.so voice/*.cpp common/**/*.cpp -I. -Icommon
     
     - name: Upload Linux artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: linux-build
         path: libsampvoice.so
@@ -62,7 +62,7 @@ jobs:
     
     steps:
     - name: Download all artifacts
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
     
     - name: Create Release
       id: create_release
